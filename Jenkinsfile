@@ -7,7 +7,10 @@ pipeline
         {
             steps
             {
-                sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
+                script
+                {
+                    sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
+                }
 
                 // Clean containers
                 script {
