@@ -1,5 +1,4 @@
 pipeline
-pipeline
 {
     agent any
     stages
@@ -9,14 +8,14 @@ pipeline
             steps
             {
                 sh ' rm -rf * '
-                sh ' sudo git clone -b python https://github.com/Sivasurya002/Docker_Practice_2.git '
+                sh ' sudo git clone https://github.com/Sivasurya002/Docker_Practice_2.git '
             }
         }
         stage( "Build" )
         {
             steps
             {
-                sh ' sudo mv /var/lib/jenkins/workspace/IMG/Docker-jenkins-tasks/* /home/ec2-user/Docker ' 
+                sh ' sudo mv /var/lib/jenkins/workspace/Docker_practice_2/* /home/ec2-user/Docker ' 
                 sh ' sudo docker build -t imagejav . '
             }
         }
@@ -24,7 +23,7 @@ pipeline
         {
             steps
             {
-                sh ' sudo docker run -it imagejav '
+                sh ' sudo docker run -it --name contjav imagejav '
             }
         }
     }
