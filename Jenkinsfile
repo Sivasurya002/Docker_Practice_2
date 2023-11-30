@@ -23,8 +23,6 @@ pipeline
                     sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
                 }
             }
-
-            }
         }
         stage( "Clone" )
         {
