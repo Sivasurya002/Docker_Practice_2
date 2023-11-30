@@ -9,9 +9,15 @@ pipeline
             {
                 sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
 
-                cleanContainers()
-
-                cleanImages()
+                // Clean containers
+                script {
+                    cleanContainers()
+                }
+                
+                // Clean images
+                script {
+                    cleanImages()
+                }
             }
         }
         stage( "Clone" )
