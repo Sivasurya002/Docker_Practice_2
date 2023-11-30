@@ -21,8 +21,8 @@ pipeline
             steps
             {
                 // sh ' mv /var/lib/jenkins/workspace/Docker_practice_2/* /home/Docker ' 
-                // sh ' docker build -t imagejav /var/lib/jenkins/workspace/Docker_practice_2/Docker_Practice_2 '
-                sh ' docker build -t imagejav . '
+                sh ' docker build -t imagejav /var/lib/jenkins/workspace/Docker_practice_2/Docker_Practice_2 '
+                // sh ' docker build -t imagejav . '
             }
         }
         stage( "Run" )
