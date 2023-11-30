@@ -14,12 +14,31 @@ pipeline
 
                 // Clean containers
                 script {
-                    cleanContainers()
+                    // Check if any container is running
+                    def containerExists = sh(script: 'docker ps -q', returnStatus: true) == 0
+
+                    // If containers exist, stop and remove them
+                    if (containerExists) {
+                        sh 'docker stop $(docker ps -a -q)'
+                        sh 'docker rm $(docker ps -a -q)'
+                        echo 'Containers removed successfully.'
+                    } else {
+                        echo 'No containers to remove.'
+                    }
                 }
                 
                 // Clean images
                 script {
-                    cleanImages()
+                    // Check if any images are present
+                    def imageExists = sh(script: 'docker images -q', returnStatus: true) == 0
+
+                    // If images exist, remove them
+                    if (imageExists) {
+                        sh 'docker rmi $(docker images -q)'
+                        echo 'Images removed successfully.'
+                    } else {
+                        echo 'No images to remove.'
+                    }
                 }
             }
         }
@@ -62,33 +81,6 @@ pipeline
         failure {
             // Do something on build failure
             echo 'Build failed!'
-        }
-    }
-
-    def cleanContainers(){
-            def containerExists = sh(script: 'docker ps -q ', returnStatus: true) == 0
-
-            // If the container exists, stop and remove it
-            if (containerExists) {
-                sh ' docker stop $(docker ps -a -q) '
-                sh ' docker rm $(docker ps -a -q) '
-                echo 'Container removed successfully.'
-            } else 
-             {
-                   echo 'Container does not exist.'
-             }
-    }
-
-    def cleanImages(){
-        def imageExists = sh(script: 'docker images -q ', returnStatus: true) == 0
-
-        // If the container exists, stop and remove it
-        if (imageExists) {
-            sh ' docker rmi $(docker images -q) '
-            echo 'images removed successfully.'
-        } else 
-        {
-            echo 'image does not exist.'
         }
     }
 }
