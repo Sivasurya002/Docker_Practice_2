@@ -12,17 +12,17 @@ pipeline
                     def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
                     if (containers) 
                     {
-                        sh "docker stop $containers"
-                        sh "docker rm $containers"
+                        sh ' docker stop $containers '
+                        sh ' docker rm $containers '
                     }
                     def images = sh(script: 'docker images -q', returnStdout: true).trim()
                     if (images) 
                     {
-                        sh "docker rmi $images"
+                        sh ' docker rmi $images '
                     }
                     sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
                 }
-            }
+            }
         }
         stage( "Clone" )
         {
