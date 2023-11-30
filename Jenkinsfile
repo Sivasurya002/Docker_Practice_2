@@ -15,16 +15,14 @@ pipeline
                 // Clean containers
                 script {
                     // Check if any container is running
-                    def containerExists = sh(script: 'docker ps -q', returnStatus: true) == 0
+                    def containerExists = sh(script: 'docker ps -a -q', returnStatus: true) == 0
 
                     // If containers exist, stop and remove them
                     if (containerExists) {
-                        sh 'docker stop $(docker ps -a -q)'
-                        sh 'docker rm $(docker ps -a -q)'
+                        sh 'docker stop $containerExists'
+                        sh 'docker rm $containerExists'
                         echo 'Containers removed successfully.'
-                    } else {
-                        echo 'No containers to remove.'
-                    }
+                    } 
                 }
                 
                 // Clean images
@@ -34,11 +32,9 @@ pipeline
 
                     // If images exist, remove them
                     if (imageExists) {
-                        sh 'docker rmi $(docker images -q)'
+                        sh 'docker rmi $imageExists'
                         echo 'Images removed successfully.'
-                    } else {
-                        echo 'No images to remove.'
-                    }
+                    } 
                 }
             }
         }
