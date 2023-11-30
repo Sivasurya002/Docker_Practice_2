@@ -7,33 +7,23 @@ pipeline
         {
             steps
             {
-                script
+                script 
                 {
+                    def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+                    if (containers) 
+                    {
+                        sh "docker stop $containers"
+                        sh "docker rm $containers"
+                    }
+                    def images = sh(script: 'docker images -q', returnStdout: true).trim()
+                    if (images) 
+                    {
+                        sh "docker rmi $images"
+                    }
                     sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
                 }
+            }
 
-                // Clean containers
-                script {
-                    // Check if any container is running
-                    def containerExists = sh(script: 'docker ps -a -q', returnStdout: true).trim()
-
-                    // If containers exist, stop and remove them
-                    if (containerExists) {
-                        sh 'docker stop $containerExists'
-                        sh 'docker rm $containerExists'
-                        echo 'Containers removed successfully.'
-                    } 
-                }
-                
-                // Clean images
-                     // Check if any images are present
-                    def imageExists = sh(script: 'docker images -q', returnStdout: true).trim()
-
-                    // If images exist, remove them
-                    if (imageExists) {
-                        sh 'docker rmi $imageExists'
-                        echo 'Images removed successfully.'
-                    } 
             }
         }
         stage( "Clone" )
