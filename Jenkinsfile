@@ -8,17 +8,17 @@ pipeline
             steps
             {
                 script {
-    def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
-    if (containers) {
+    def containerExists = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+    if (containerExists) {
         // Stop and remove containers
-        sh "docker stop $containers"
-        sh "docker rm $containers"
+        sh "docker stop $containerExists"
+        sh "docker rm $containerExists"
     }
 
-    def images = sh(script: 'docker images -q', returnStdout: true).trim()
-    if (images) {
-        // Remove images
-        sh "docker rmi $images"
+    def imageExists = sh(script: 'docker images -q', returnStdout: true).trim()
+    if (imageExists) {
+        // Remove imageExists
+        sh "docker rmi $imageExists"
     }
 
     // Clean workspace
