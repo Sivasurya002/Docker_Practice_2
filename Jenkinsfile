@@ -7,21 +7,24 @@ pipeline
         {
             steps
             {
-                script 
-                {
-                    def containers = sh(script: ' docker ps -a -q ', returnStdout: true).trim()
-                    if (containers) 
-                    {
-                        sh ' docker stop $containers '
-                        sh ' docker rm $containers '
-                    }
-                    def images = sh(script: ' docker images -q ', returnStdout: true).trim()
-                    if (images) 
-                    {
-                        sh ' docker rmi $images '
-                    }
-                    sh ' rm -rf /var/lib/jenkins/workspace/Docker_practice_2/* '
-                }
+                script {
+    def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+    if (containers) {
+        // Stop and remove containers
+        sh "docker stop $containers"
+        sh "docker rm $containers"
+    }
+
+    def images = sh(script: 'docker images -q', returnStdout: true).trim()
+    if (images) {
+        // Remove images
+        sh "docker rmi $images"
+    }
+
+    // Clean workspace
+    sh 'rm -rf /var/lib/jenkins/workspace/Docker_practice_2/*'
+}
+
             }
         }
         stage( "Clone" )
