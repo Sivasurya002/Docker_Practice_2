@@ -50,7 +50,7 @@ pipeline
         {
             steps
             {
-                sh ' docker run imagejav '
+                sh ' docker run -d imagejav '
             }
         }
     }
